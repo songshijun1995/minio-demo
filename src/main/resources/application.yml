@@ -1,0 +1,28 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: minio-demo
+
+#请把下面的配置换成自己的服务器
+minio:
+  endpoint: http://129.28.158.207:9000
+  accessKey: admin
+  secretKey: 123456
+  filHost: http://file.songshijun.top
+
+logging:
+  level:
+    ROOT: info
+    com.minio: debug
+  pattern:
+    file: '%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{50} - %msg%n'
+  file:
+    name: ${logging.file.path}/${spring.application.name}.log
+    path: /home/logs/${spring.application.name}
+    max-size: 10MB
+    max-history: 30
+
