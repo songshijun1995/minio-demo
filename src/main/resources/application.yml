@@ -16,13 +16,15 @@ minio:
 
 logging:
   level:
-    ROOT: info
-    com.minio: debug
+    ROOT: INFO
+    com.minio: DEBUG
   pattern:
     file: '%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{50} - %msg%n'
   file:
     name: ${logging.file.path}/${spring.application.name}.log
     path: /home/logs/${spring.application.name}
-    max-size: 10MB
-    max-history: 30
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 30
 
