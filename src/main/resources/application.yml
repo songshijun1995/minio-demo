@@ -11,7 +11,7 @@ spring:
 minio:
   endpoint: http://129.28.158.207:9000
   accessKey: admin
-  secretKey: 123456
+  secretKey: song@1995
   filHost: http://file.songshijun.top
 
 logging:
