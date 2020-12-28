@@ -30,11 +30,8 @@ public class MinioController {
      * 上传文件
      */
     @PostMapping("/upload")
-    public FileUploadResponse upload(@RequestParam(name = "file", required = false) MultipartFile file, @RequestParam(required = false) String bucketName) {
+    public FileUploadResponse upload(@RequestParam(name = "file", required = false) MultipartFile file, @RequestParam(required = false, defaultValue = "salt") String bucketName) {
         FileUploadResponse response = null;
-        if (StringUtils.isBlank(bucketName)) {
-            bucketName = "salt";
-        }
         try {
             response = minioUtil.uploadFile(file, bucketName);
         } catch (Exception e) {
@@ -47,12 +44,9 @@ public class MinioController {
      * 删除文件
      */
     @DeleteMapping("/delete/{objectName}")
-    public void delete(@PathVariable("objectName") String objectName, @RequestParam(required = false) String bucketName) throws Exception {
-        if (StringUtils.isBlank(bucketName)) {
-            bucketName = "salt";
-        }
+    public void delete(@PathVariable("objectName") String objectName, @RequestParam(required = false, defaultValue = "salt") String bucketName) throws Exception {
         minioUtil.removeObject(bucketName, objectName);
-        System.out.println("删除成功");
+        log.error("删除成功");
     }
 
     /**
@@ -67,7 +61,8 @@ public class MinioController {
             // 获取"myobject"的输入流。
             stream = minioUtil.getObject("salt", objectName);
             if (stream == null) {
-                System.out.println("文件不存在");
+                log.error("文件不存在");
+                throw new RuntimeException("文件不存在");
             }
             //用于转换byte
             output = new ByteArrayOutputStream();
